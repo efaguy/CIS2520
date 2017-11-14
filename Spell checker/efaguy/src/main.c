@@ -80,7 +80,7 @@ void removeNewLine(char* word)
 
 int main(int args, char** argc)
 {
-    HTable* dictionary = createTable(10, &hashNode, &destroyNodeData, &printNodeData);
+    HTable* dictionary = createTable(100, &hashNode, &destroyNodeData, &printNodeData);
     FILE* fp = NULL;
     int choice;
     char* temp;
