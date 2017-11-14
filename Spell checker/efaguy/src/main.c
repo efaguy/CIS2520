@@ -82,27 +82,41 @@ int main(int args, char** argc)
 {
     HTable* dictionary = createTable(10, &hashNode, &destroyNodeData, &printNodeData);
     FILE* fp = NULL;
-    fp = fopen(argc[1], "r");
     int choice;
     char* temp;
     char filename[10];
     int right = 0;
     int wrong = 0;
-    //Read in from file
-    while(true)
+    if(args > 1)
     {
-        char* word = malloc(sizeof(char)*50);
-        if(fgets(word, 50, fp) != NULL)
-        {
-            removeNewLine(word);
-            insertDataInMap(dictionary, word);
-        }
-        else
-        {
-            fclose(fp);
-            break;
-        }
-    }
+		fp = fopen(argc[1], "r");
+		if(fp == NULL)
+		{
+			printf("Error reading from file\n");
+		}
+		else
+		{
+			//Read in from file
+			while(true)
+			{
+				char* word = malloc(sizeof(char)*50);
+				if(fgets(word, 50, fp) != NULL)
+				{
+					removeNewLine(word);
+					insertDataInMap(dictionary, word);
+				}
+				else
+				{
+					fclose(fp);
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		printf("Error reading from file\n");
+	}
     //Main command loop
     do
     {
@@ -141,6 +155,7 @@ int main(int args, char** argc)
             fp = fopen(filename, "r");
             if(fp  == NULL)
             {
+				printf("Error reading from file\n");
                 break;
             }
             char word[50];
