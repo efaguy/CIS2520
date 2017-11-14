@@ -29,7 +29,6 @@ HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, char* key
         tmpTable->hashFunction = hashFunction;
         tmpTable->destroyData = destroyData;
         tmpTable->printNode = printNode;
-        tmpTable->add = &insertDataInMap;
         return tmpTable;
 
 }

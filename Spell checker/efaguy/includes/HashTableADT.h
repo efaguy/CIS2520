@@ -33,12 +33,6 @@ struct HTable
 	void (*destroyData)(void *data); ///< function pointer to a function to delete a single piece of data from the hash table
 	int (*hashFunction)(size_t tableSize, char *key); ///< function pointer to a function to hash the data
     void (*printNode)(void *toBePrinted); ///< function pointer to a function that prints out a data element of the table
-
-    /**A function pointer for add is not mandatory, just a suggestion for adding.
-    * Assigned as &insertDataInMap when initializing a map.
-    * Allows overloading of function names to use standard naming conventions, similar to the object oriented approach.
-    **/
-    void (*add) (struct HTable *hashTable, void *data); ///< function pointer for users to add a data element to the map.
 };
 
 
