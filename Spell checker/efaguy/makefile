@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -std=c99 -pedantic -c
 
 program: bin/HashTableADT.o bin/main.o
-	$(CC) bin/HashTableADT.o bin/main.o -o bin/program.exe
+	$(CC) bin/HashTableADT.o bin/main.o -o bin/program
 	 
 bin/HashTableADT.o: src/HashTableADT.c
 	$(CC) $(CFLAGS) src/HashTableADT.c -o bin/HashTableADT.o
