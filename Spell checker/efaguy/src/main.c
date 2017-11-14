@@ -12,7 +12,6 @@ int hashNode(size_t tableSize, char *key)
     int i = 0;
     int x = 0;
     int keyNum = 0;
-    //printf("%s\n\n", word);
     while(letter != '\0')
     {
         static const char * const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -21,7 +20,6 @@ int hashNode(size_t tableSize, char *key)
         temp = p - alphabet;
         temp++;
 
-        //printf("%d\n", temp);
         switch(x)
         {
         case 0:
@@ -45,7 +43,6 @@ int hashNode(size_t tableSize, char *key)
         i++;
         letter = key[i];
     }
-    //printf("\n%d\n", keyNum);
     int index = keyNum%tableSize;
     return index;
 }
@@ -60,7 +57,8 @@ void printNodeData(void *toBePrinted)
     char* word = malloc(sizeof(toBePrinted));
     if(toBePrinted == NULL)
     {
-        printf("Invalid Data\n");
+        printf("Word not found\n");
+        return;
     }
     word = (char*)toBePrinted;
     printf("%s\n", word);
@@ -91,7 +89,6 @@ int main(int args, char** argc)
         if(fgets(word, 50, fp) != NULL)
         {
             removeNewLine(word);
-            //printf("Current word: %s\n", word);
             insertDataInMap(dictionary, word);
         }
         else
@@ -99,16 +96,7 @@ int main(int args, char** argc)
             fclose(fp);
             break;
         }
-    }
-    /*char* word1 = malloc(sizeof(char)*50);
-    char* word2 = malloc(sizeof(char)*50);
-    fgets(word1, 50, fp);
-    removeNewLine(word1);
-    fgets(word2, 50, fp);
-    removeNewLine(word2);
-    fclose(fp);
-    insertDataInMap(dictionary, word1);
-    insertDataInMap(dictionary, word2);*/
+    } 
     do
     {
         printf("Please select one of the following options:\n");
@@ -152,7 +140,6 @@ int main(int args, char** argc)
                 if(fgets(word, 50, fp) != NULL)
                 {
                     removeNewLine(word);
-                    //printf("Checking: %s\n", word);
                     if(lookupData(dictionary, (char*)word) == NULL)
                     {
                         wrong++;
@@ -160,7 +147,6 @@ int main(int args, char** argc)
                     }
                     else
                     {
-                        //printf("%s WAS found in dictionary\n", word);
                         right++;
                     }
                 }

@@ -83,7 +83,6 @@ void destroyTable(HTable *hashTable)
 void insertData(HTable *hashTable, char* key, void *data)
 {
     int index = hashTable->hashFunction(hashTable->size, key);
-    //printf("index for %s: %d\n",(char*)data, index);
     Node* newNode = createNode(key, data);
     Node* curNode = hashTable->table[index];
     if(hashTable->table[index] == NULL)
@@ -107,9 +106,43 @@ void insertData(HTable *hashTable, char* key, void *data)
 **/
 void insertDataInMap(HTable *hashTable, void *data)
 {
+	int i = 0;
+	char *temp = data;
+    for(i = 0; i < strlen(temp); i++)
+    {
+        temp[i] = tolower(temp[i]);
+    }
+    i = 0;
+    Node* curNode = hashTable->table[0];
+	while(true)
+	{
+        if(curNode != NULL)
+        {
+            if(strcmp(curNode->key, temp) == 0)
+            {
+                printf("%s is already in the dictionary\n", temp);
+                return;
+            }
+            while(curNode->next != NULL)
+            {
+                curNode = curNode->next;
+                if(strcmp(curNode->key, temp) == 0)
+                {
+                    printf("%s is already in the dictionary\n", temp);
+                    return;
+                }
+            }
+        }
+        i++;
+        if(i == hashTable->size)
+        {
+            break;
+        }
+        curNode = hashTable->table[i];
+	}
     char* key;
     key = data;
-    int i = 0;
+    i = 0;
     for(i = 0; i < strlen(key); i++)
     {
         key[i] = tolower(key[i]);
@@ -126,7 +159,6 @@ void insertDataInMap(HTable *hashTable, void *data)
 void removeData(HTable *hashTable, char* key)
 {
     char* empty = malloc(sizeof(char)*2);
-    //bool found = false;
     strcpy(empty, "#");
     int i = -1;
     Node* curNode = hashTable->table[0];
@@ -135,8 +167,8 @@ void removeData(HTable *hashTable, char* key)
 	    i++;
         if(i == hashTable->size)
         {
-            printf("Word could not be found in dictionary\n");
-            break;
+            printf("%s could not be found in dictionary\n", key);
+            return;
         }
         curNode = hashTable->table[i];
         if(curNode != NULL)
@@ -146,7 +178,7 @@ void removeData(HTable *hashTable, char* key)
                 printf("Successfully deleted %s\n", curNode->key);
                 curNode->data = (void*)empty;
                 curNode->key = (void*)empty;
-                break;
+                return;
             }
             while(curNode->next != NULL)
             {
@@ -156,7 +188,7 @@ void removeData(HTable *hashTable, char* key)
                     printf("Successfully deleted %s\n", curNode->key);
                     curNode->data = (void*)empty;
                     curNode->key = (void*)empty;
-                    break;
+                    return;
                 }
             }
         }
@@ -182,19 +214,15 @@ void *lookupData(HTable *hashTable, char* key)
 	{
         if(curNode != NULL)
         {
-            //printf("%s cfound at %d\n", curNode->key, i);
             if(strcmp(curNode->key, key) == 0)
             {
-                //printf("%s found at %d\n", (char*)curNode->data, i);
                 return curNode->data;
             }
             while(curNode->next != NULL)
             {
-                //printf("%s found at %d\n", (char*)curNode->data, i);
                 curNode = curNode->next;
                 if(strcmp(curNode->key, key) == 0)
                 {
-                    //printf("%s found at %d\n", (char*)curNode->data, i);
                     return curNode->data;
                 }
             }
@@ -211,7 +239,6 @@ void *lookupData(HTable *hashTable, char* key)
 
 void printTable(HTable *table)
 {
-    //int i = 0;
     int x;
     char* key;
     Node* curNode = table->table[0];
@@ -219,25 +246,24 @@ void printTable(HTable *table)
     for(x = 0;x < table->size; x++)
 	{
 	    curNode = table->table[x];
-	    //printf("index: %d\n", x);
 	    if(curNode != NULL)
         {
             nextNode = curNode->next;
         }
 	    while(nextNode != NULL)
         {
-            //printf("WTF");
-            key = (char*)nextNode->data;
-            printf("%d:%s:", x, key);
-            table->printNode(nextNode->data);
+			if(strcmp((char*)nextNode->data,"#") != 0)
+            {
+				key = (char*)nextNode->data;
+				printf("%d:%s:", x, key);
+				table->printNode(nextNode->data);
+			}
             nextNode = nextNode->next;
         }
-        //printf("TEST");
         if(curNode != NULL)
         {
             if(strcmp((char*)curNode->data,"#") != 0)
             {
-                //printf("TEST");
                 key = (char*)curNode->data;
                 printf("%d:%s:", x, key);
                 table->printNode(curNode->data);
