@@ -87,7 +87,6 @@ void insertData(HTable *hashTable, char* key, void *data)
     if(hashTable->table[index] == NULL)
     {
         hashTable->table[index] = newNode;
-        printf("Successfully added %s\n", (char*)data);
         return;
     }
     while(curNode->next != NULL)
@@ -95,7 +94,6 @@ void insertData(HTable *hashTable, char* key, void *data)
         curNode = curNode->next;
     }
     curNode->next = newNode;
-    printf("Successfully added %s\n", (char*)data);
 }
 /** THIS FUNCTION IS NOT MANDATORY, users call this function to insert a Node in the hash table.
 * It's meant as a wrapper for insertData so the users don't need to generate the key when adding.
@@ -103,7 +101,7 @@ void insertData(HTable *hashTable, char* key, void *data)
 *@param hashTable pointer to the hash table
 *@param data pointer to generic data that is to be inserted into the list
 **/
-void insertDataInMap(HTable *hashTable, void *data)
+int insertDataInMap(HTable *hashTable, void *data)
 {
 	int i = 0;
 	char *temp = data;
@@ -119,16 +117,14 @@ void insertDataInMap(HTable *hashTable, void *data)
         {
             if(strcmp(curNode->key, temp) == 0)
             {
-                printf("%s is already in the dictionary\n", temp);
-                return;
+                return 0;
             }
             while(curNode->next != NULL)
             {
                 curNode = curNode->next;
                 if(strcmp(curNode->key, temp) == 0)
                 {
-                    printf("%s is already in the dictionary\n", temp);
-                    return;
+                    return 0;
                 }
             }
         }
@@ -147,6 +143,7 @@ void insertDataInMap(HTable *hashTable, void *data)
         key[i] = tolower(key[i]);
     }
     insertData(hashTable, key, data);
+    return 1;
 }
 
 /**Function to remove a node from the hash table

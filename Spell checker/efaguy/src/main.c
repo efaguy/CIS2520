@@ -8,43 +8,12 @@
 //Function to hash a string
 int hashNode(size_t tableSize, char *key)
 {
-    char letter = key[0];
-    int temp = 0;
     int i = 0;
-    int x = 0;
     int keyNum = 0;
-    //Convert the word to a number letter by letter
-    while(letter != '\0')
+    //Add eachs letter ASCI number to keyNum
+    for(i = 0;i < strlen(key);i++)
     {
-        static const char * const alphabet = "abcdefghijklmnopqrstuvwxyz";
-        char *p = strchr(alphabet, tolower(letter));
-
-        temp = p - alphabet;
-        temp++;
-
-        //Depending in the position of the letter perform a operation on the key
-        switch(x)
-        {
-        case 0:
-            keyNum += temp;
-            break;
-        case 1:
-            keyNum -= temp;
-            break;
-        case 2:
-            keyNum *= temp;
-            break;
-        case 3:
-            if(temp != 0)
-                keyNum /= temp;
-            break;
-        }
-        if(x == 3)
-            x = 0;
-        else
-            x++;
-        i++;
-        letter = key[i];
+        keyNum += key[i];
     }
     //Modulo by the table size
     int index = keyNum%tableSize;
@@ -80,13 +49,14 @@ void removeNewLine(char* word)
 
 int main(int args, char** argc)
 {
-    HTable* dictionary = createTable(100, &hashNode, &destroyNodeData, &printNodeData);
+    HTable* dictionary = createTable(200, &hashNode, &destroyNodeData, &printNodeData);
     FILE* fp = NULL;
     int choice;
     char* temp;
     char filename[10];
     int right = 0;
     int wrong = 0;
+    int test;
     if(args > 1)
     {
 		fp = fopen(argc[1], "r");
@@ -133,7 +103,11 @@ int main(int args, char** argc)
             temp = malloc(sizeof(char)*50);
             fgets(temp, 50, stdin);
             removeNewLine(temp);
-            insertDataInMap(dictionary, (void*)temp);
+            test = insertDataInMap(dictionary, (void*)temp);
+            if(test == 1)
+				printf("Successfully added %s\n", temp);
+			else if(test == 0)
+				printf("%s is already in the dictionary\n", temp);
             printf("\n");
             break;
         //Removing a word

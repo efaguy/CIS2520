@@ -74,7 +74,7 @@ void insertData(HTable *hashTable, char *key, void *data);
 *@param hashTable pointer to the hash table
 *@param data pointer to generic data that is to be inserted into the list
 **/
-void insertDataInMap(HTable *hashTable, void *data);
+int insertDataInMap(HTable *hashTable, void *data);
 
 /**Function to remove a node from the hash table
  *@pre Hash table must exist and have memory allocated to it
