@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 
+//Function to hash a string
 int hashNode(size_t tableSize, char *key)
 {
     char letter = key[0];
@@ -12,6 +13,7 @@ int hashNode(size_t tableSize, char *key)
     int i = 0;
     int x = 0;
     int keyNum = 0;
+    //Convert the word to a number letter by letter
     while(letter != '\0')
     {
         static const char * const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -20,6 +22,7 @@ int hashNode(size_t tableSize, char *key)
         temp = p - alphabet;
         temp++;
 
+        //Depending in the position of the letter perform a operation on the key
         switch(x)
         {
         case 0:
@@ -43,6 +46,7 @@ int hashNode(size_t tableSize, char *key)
         i++;
         letter = key[i];
     }
+    //Modulo by the table size
     int index = keyNum%tableSize;
     return index;
 }
@@ -64,6 +68,7 @@ void printNodeData(void *toBePrinted)
     printf("%s\n", word);
 }
 
+//To remove the newline from the end of string when using fgets
 void removeNewLine(char* word)
 {
     int len = strlen(word);
@@ -83,6 +88,7 @@ int main(int args, char** argc)
     char filename[10];
     int right = 0;
     int wrong = 0;
+    //Read in from file
     while(true)
     {
         char* word = malloc(sizeof(char)*50);
@@ -96,7 +102,8 @@ int main(int args, char** argc)
             fclose(fp);
             break;
         }
-    } 
+    }
+    //Main command loop
     do
     {
         printf("Please select one of the following options:\n");
@@ -106,6 +113,7 @@ int main(int args, char** argc)
         //printf()
         switch(choice)
         {
+        //Adding a word
         case 1:
             printf("\nWhat word would you like to add: ");
             temp = malloc(sizeof(char)*50);
@@ -114,6 +122,7 @@ int main(int args, char** argc)
             insertDataInMap(dictionary, (void*)temp);
             printf("\n");
             break;
+        //Removing a word
         case 2:
             printf("\nWhat word would you like to remove: ");
             temp = malloc(sizeof(char)*50);
@@ -122,6 +131,7 @@ int main(int args, char** argc)
             removeData(dictionary, temp);
             printf("\n");
             break;
+        //Spell check a word
         case 3:
             right = 0;
             wrong = 0;
@@ -135,6 +145,7 @@ int main(int args, char** argc)
             }
             char word[50];
             printf("\nFile processed by Spell Check %s:\n", filename);
+            //Read in from file and check if the word in the table
             while(true)
             {
                 if(fgets(word, 50, fp) != NULL)
@@ -159,6 +170,7 @@ int main(int args, char** argc)
                 }
             }
             break;
+        //Printing out the dictionary
         case 4:
             printf("\n");
             printTable(dictionary);
