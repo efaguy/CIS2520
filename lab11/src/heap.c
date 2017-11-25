@@ -76,7 +76,7 @@ void* getRoot(Heap *heap){
 }
 
 void heapify(Heap *heap, size_t i){
-    void* temp;
+    //void* temp;
     if(i >= heap->currentSize)
     {
         return;
@@ -95,7 +95,7 @@ void heapify(Heap *heap, size_t i){
             if(comp == 1)
             {
                 temp = curNode->data;
-                curNode = lcNode->data
+                curNode = lcNode->data;
                 lcNode->data = temp;
             }
         }
@@ -105,7 +105,7 @@ void heapify(Heap *heap, size_t i){
             if(comp == 1)
             {
                 temp = curNode->data;
-                curNode = rcNode->data
+                curNode = rcNode->data;
                 rcNode->data = temp;
             }
         }
@@ -114,22 +114,22 @@ void heapify(Heap *heap, size_t i){
     {
         Node* lcNode = heap->heapArray[lIndex];
 
-        comp = heap->compare(curNode->data, lcNode->data);
+        int comp = heap->compare(curNode->data, lcNode->data);
         if(comp == 1)
         {
             temp = curNode->data;
-            curNode = lcNode->data
+            curNode = lcNode->data;
             lcNode->data = temp;
         }
     }
     else if(rIndex < heap->currentSize)
     {
         Node* rcNode = heap->heapArray[rIndex];
-        comp = heap->compare(curNode->data, rcNode->data);
+        int comp = heap->compare(curNode->data, rcNode->data);
         if(comp == 1)
         {
             temp = curNode->data;
-            curNode = rcNode->data
+            curNode = rcNode->data;
             rcNode->data = temp;
         }
     }
