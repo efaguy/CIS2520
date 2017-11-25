@@ -4,13 +4,13 @@
  * Internal functions to search for the max element between the data stored at index i
  * and the left child. This function will use compares data using the function pointer and return the index of the maximum item.
  */
-size_t findMaxLeft(Heap *heap,size_t i); 
+size_t findMaxLeft(Heap *heap,size_t i);
 
 /**
  * Internal functions to search for the max element between the data stored at index current
  * and the right child. This function will use compares data using the function pointer and return the index of the maximum item.
  */
-size_t findMaxRight(Heap *heap,size_t curr, size_t i); 
+size_t findMaxRight(Heap *heap,size_t curr, size_t i);
 
 /**************************************************************************************************************************/
 
@@ -40,11 +40,11 @@ Node *createHeapNode(void *data){
 }
 
 void insertHeapNode(Heap *heap, void *data){
-    //TODO: For lab 11 students must recreate this function
-
-	// This function inserts data into the heap.
-	// It should check for the next available position in the tree.
-	// Then it should ensure that the heap's properties remain consistent.
+    size_t index = heap->currentSize;
+    Node* insertNode = createHeapNode(data);
+    heap->heapArray[index] = insertNode;
+    heap->currentSize++;
+    heapify(heap, 0);
 }
 
 void deleteRoot(Heap *heap) {
@@ -76,10 +76,41 @@ void* getRoot(Heap *heap){
 }
 
 void heapify(Heap *heap, size_t i){
-    //TODO: For lab 11 students must recreate this function
+    void* temp;
+    if(i >= heap->currentSize)
+    {
+        return;
+    }
+    Node* curNode = heap->heapArray[i];
+    size_t lIndex = getLeftChildIndex(i);
+    Node* lcNode = heap->heapArray[lIndex];
+    size_t rIndex = getRightChildIndex(i);
+    Node* rcNode = heap->heapArray[rIndex];
+    int comp = heap->compare(rcNode->data, lcNode->data)
+    if(comp == 1)
+    {
+        comp = heap->compare(curNode->data, lcNode->data);
+        if(comp == 1)
+        {
+            temp = curNode->data;
+            curNode = lcNode->data
+            lcNode->data = temp;
+        }
+    }
+    else
+    {
+        comp = heap->compare(curNode->data, rcNode->data);
+        if(comp == 1)
+        {
+            temp = curNode->data;
+            curNode = rcNode->data
+            rcNode->data = temp;
+        }
+    }
 
-	// This function adjust the heap to ensure that it remains in proper order.
-	// The adjustment occurs with the heap contianer.
+
+    heapify(heap, lIndex);
+    heapify(heap, rIndex);
 }
 
 
@@ -102,23 +133,20 @@ size_t findMaxRight(Heap *heap,size_t curr, size_t i){
 
 size_t getLeftChildIndex(size_t index)
 {
-    //TODO: For lab 11 students must recreate this function
-	// helper to quickly calculate the left child from index ( ie index is the parent )
-	return 0;
+    size_t leftChildIndex = (2*index) + 1;
+	return leftChildIndex;
 }
 
 size_t getRightChildIndex(size_t index)
 {
-    //TODO: For lab 11 students must recreate this function
-	// helper to quickly calculate the right child from index ( ie index is the parent )
-	return 0;
+    size_t rightChildIndex = (2*index) + 2;
+	return rightChildIndex;
 }
 
 size_t getParentIndex(size_t index)
 {
-    //TODO: For lab 11 students must recreate this function
-	// helper to quickly calculate the parent index of a child node. 
-	return 0;
+    size_t parentIndex = (index-1)/2;
+    return parentIndex;
 }
 
 size_t currentSize(Heap* heap)
@@ -127,8 +155,8 @@ size_t currentSize(Heap* heap)
 }
 
 void* search(Heap* heap, void* data)
-{       
-    for(size_t i =0; i < currentSize(heap);i++) 
+{
+    for(size_t i =0; i < currentSize(heap);i++)
     {
         if( heap->compare(data,heap->heapArray[i]->data) == 0)
             return heap->heapArray[i]->data;
@@ -139,7 +167,11 @@ void* search(Heap* heap, void* data)
 
 void printHeap(Heap* heap, void (*printFunc)(void*) )
 {
-    //TODO: For lab 11 students must recreate this function
-	// Print a BFS version of the Heap Array
-	// This function should be iterative for BFS.
+    Node* curNode = heap->heapArray[0];
+    size_t index = 0;
+    for(index = 0;index < heap->currentSize; index++)
+    {
+        curNode = heap->heapArray[index];
+        printFunc(curNode->data);
+    }
 }
