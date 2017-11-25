@@ -83,12 +83,37 @@ void heapify(Heap *heap, size_t i){
     }
     Node* curNode = heap->heapArray[i];
     size_t lIndex = getLeftChildIndex(i);
-    Node* lcNode = heap->heapArray[lIndex];
     size_t rIndex = getRightChildIndex(i);
-    Node* rcNode = heap->heapArray[rIndex];
-    int comp = heap->compare(rcNode->data, lcNode->data)
-    if(comp == 1)
+    if(lIndex < heap->currentSize && rIndex < heap->currentSize)
     {
+        Node* lcNode = heap->heapArray[lIndex];
+        Node* rcNode = heap->heapArray[rIndex];
+        int comp = heap->compare(rcNode->data, lcNode->data);
+        if(comp == 1)
+        {
+            comp = heap->compare(curNode->data, lcNode->data);
+            if(comp == 1)
+            {
+                temp = curNode->data;
+                curNode = lcNode->data
+                lcNode->data = temp;
+            }
+        }
+        else
+        {
+            comp = heap->compare(curNode->data, rcNode->data);
+            if(comp == 1)
+            {
+                temp = curNode->data;
+                curNode = rcNode->data
+                rcNode->data = temp;
+            }
+        }
+    }
+    else if(lIndex < heap->currentSize)
+    {
+        Node* lcNode = heap->heapArray[lIndex];
+
         comp = heap->compare(curNode->data, lcNode->data);
         if(comp == 1)
         {
@@ -97,8 +122,9 @@ void heapify(Heap *heap, size_t i){
             lcNode->data = temp;
         }
     }
-    else
+    else if(rIndex < heap->currentSize)
     {
+        Node* rcNode = heap->heapArray[rIndex];
         comp = heap->compare(curNode->data, rcNode->data);
         if(comp == 1)
         {
@@ -107,8 +133,6 @@ void heapify(Heap *heap, size_t i){
             rcNode->data = temp;
         }
     }
-
-
     heapify(heap, lIndex);
     heapify(heap, rIndex);
 }
