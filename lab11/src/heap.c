@@ -76,7 +76,7 @@ void* getRoot(Heap *heap){
 }
 
 void heapify(Heap *heap, size_t i){
-    //void* temp;
+    void* temp;
     if(i >= heap->currentSize)
     {
         return;
