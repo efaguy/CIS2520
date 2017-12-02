@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <C:\Users\Eric\Desktop\CIS2520\personal assistance\BinarySearchTreeAPI.h>
+#include <C:\Users\Eric\Desktop\CIS2520\efaguy_a4\BinarySearchTreeAPI.h>
 
 /**************************************
 Interface for a Binary Tree ADT
@@ -84,7 +84,7 @@ void addToTree(Tree * theTree, TreeDataPtr data)
             printf("placed: %d\n", data);
             printf("Parent: ");
             theTree->printFunc(prev);
-            if(theTree->compareFunc(curNode->data,data) == 1)
+            if(theTree->compareFunc(prev->data,data) == 1)
             {
                 prev->right = newNode;
             }
@@ -359,17 +359,17 @@ void preOrder(TreeNode* node, PrintFunc print)
 {
     if(node == NULL)
     {
-        printf("null print");
+        //printf("null print");
         return;
     }
     else
     {
-        printf("node: \n");
+        //printf("node: \n");
         print(node);
-        if(node->left == NULL)
-        {
-            printf("wot\n");
-        }
+        //printf("left: \n");
+        //print(node->left);
+        //printf("right: \n");
+        //print(node->right);
         preOrder(node->left, print);
         preOrder(node->right, print);
     }

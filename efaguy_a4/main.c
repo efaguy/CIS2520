@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <C:\Users\Eric\Desktop\CIS2520\personal assistance\BinarySearchTreeAPI.h>
+#include <C:\Users\Eric\Desktop\CIS2520\efaguy_a4\BinarySearchTreeAPI.h>
 
 int compareInt(const void* a, const void* b)
 {
@@ -45,7 +45,14 @@ int main()
     addToTree(test, (void*)two);
     addToTree(test, (void*)three);
 
+    printf("Printing preOrder:\n\n");
     printPreOrder(test, printInt);
+
+    printf("Printing postOrder:\n\n");
+    printPostOrder(test, printInt);
+
+    printf("Printing inOrder:\n\n");
+    printInOrder(test, printInt);
     destroyBinTree(test);
     return 0;
 }
