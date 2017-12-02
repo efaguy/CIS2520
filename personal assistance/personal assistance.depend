@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1512239145 source:c:\users\eric\desktop\new folder\personal assistance\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<C:\Users\Eric\Desktop\New folder\personal assistance\BinarySearchTreeAPI.h>
+
+1512239038 source:c:\users\eric\desktop\new folder\personal assistance\binarysearchtreeapi.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<C:\Users\Eric\Desktop\New folder\personal assistance\BinarySearchTreeAPI.h>
+
