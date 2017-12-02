@@ -1,21 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <C:\Users\Eric\Desktop\CIS2520\efaguy_a4\BinarySearchTreeAPI.h>
-
+#include "../includes/BinarySearchTreeAPI.h"
+#include "../includes/rule.h"
 /**************************************
 Interface for a Binary Tree ADT
 Author:  Judi McCuaig
 October, 2012
 Modfied: James Fraser (Nov 2017)
 **************************************/
-
-/**
- * Function pointer tyepdefs
- */
-typedef int (*CompareFunc)(const void* a, const void* b);
-typedef void (*DeleteFunc)(void* data);
-typedef void (*PrintFunc)(void* data);
 
 /**
  * Creates a TreeNode. TreeNode children are set to NULL and data is set to the passed in data.
@@ -26,7 +19,6 @@ typedef void (*PrintFunc)(void* data);
 TreeNode* createTreeNode(TreeDataPtr data)
 {
     TreeNode* newNode = malloc(sizeof(TreeNode));
-    //printf("%d\n", data);
     newNode->data = data;
     newNode->left = NULL;
     newNode->right = NULL;
@@ -71,7 +63,8 @@ void addToTree(Tree * theTree, TreeDataPtr data)
     TreeNode* prev = NULL;
     if(theTree->root == NULL)
     {
-        printf("ROOT: %d\n", data);
+        printf("ROOT: ");
+        printRule(newNode->data);
         newNode->parent = NULL;
         theTree->root = newNode;
         return;
@@ -81,9 +74,10 @@ void addToTree(Tree * theTree, TreeDataPtr data)
        // printf("tue");
         if(curNode == NULL)
         {
-            printf("placed: %d\n", data);
-            printf("Parent: ");
-            theTree->printFunc(prev);
+            printf("placed: ");
+            printRule(newNode->data);
+            //printf("Parent: ");
+            //printRule(prev->data);
             if(theTree->compareFunc(prev->data,data) == 1)
             {
                 prev->right = newNode;
@@ -98,13 +92,15 @@ void addToTree(Tree * theTree, TreeDataPtr data)
         }
         else if(theTree->compareFunc(curNode->data,data) == 1)
         {
-            printf("right: %d\n", data);
+            //printf("right: ");
+            //printRule(data);
             prev = curNode;
             curNode = curNode->right;
         }
         else
         {
-            printf("left: %d\n", data);
+            //printf("left: ");
+            //printRule(data);
             prev = curNode;
             curNode = curNode->left;
         }
@@ -141,11 +137,11 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
     }
     if(isLeaf(curNode))
     {
-        printf("Deleting %d\nleaf\n", curNode->data);
+        //printf("Deleting %d\nleaf\n", curNode->data);
         theTree->deleteFunc(curNode->data);
         //curNode->left = NULL;
         //curNode->right = NULL;
-        //free(curNode);
+        free(curNode);
         curNode = NULL;
         //printf("Deleted %d\nleaf\n", curNode->data);
         return;
@@ -167,7 +163,7 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
     }
     else if(hasTwoChildren(curNode))
     {
-        printf("two\n");
+        //printf("two\n");
         TreeNode* node = curNode;
         TreeNode* small = curNode->left;
         while(true)
@@ -339,10 +335,12 @@ void destroy(TreeNode* node, DeleteFunc del)
     else
     {
         destroy(node->left, del);
+        //printf("left");
         destroy(node->right, del);
+        //printf("right");
         del(node->data);
+        //printf("free");
         free(node);
-        node = NULL;
     }
 }
 
@@ -355,7 +353,7 @@ void inOrder(TreeNode* node, PrintFunc print)
     else
     {
         inOrder(node->left, print);
-        print(node);
+        print(node->data);
         inOrder(node->right, print);
     }
 }
@@ -364,17 +362,11 @@ void preOrder(TreeNode* node, PrintFunc print)
 {
     if(node == NULL)
     {
-        //printf("null print");
         return;
     }
     else
     {
-        printf("node: \n");
-        print(node);
-        //printf("left: \n");
-        //print(node->left);
-        //printf("right: \n");
-        //print(node->right);
+        print(node->data);
         preOrder(node->left, print);
         preOrder(node->right, print);
     }
