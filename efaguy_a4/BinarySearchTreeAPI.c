@@ -141,9 +141,13 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
     }
     if(isLeaf(curNode))
     {
+        printf("Deleting %d\nleaf\n", curNode->data);
         theTree->deleteFunc(curNode->data);
-        free(curNode);
+        //curNode->left = NULL;
+        //curNode->right = NULL;
+        //free(curNode);
         curNode = NULL;
+        //printf("Deleted %d\nleaf\n", curNode->data);
         return;
     }
     else if(!hasTwoChildren(curNode))
@@ -163,6 +167,7 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
     }
     else if(hasTwoChildren(curNode))
     {
+        printf("two\n");
         TreeNode* node = curNode;
         TreeNode* small = curNode->left;
         while(true)
@@ -178,7 +183,6 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
             node = node->right;
         }
         curNode->data = small->data;
-        removeFromTree(theTree, small);
         return;
     }
 }
@@ -338,6 +342,7 @@ void destroy(TreeNode* node, DeleteFunc del)
         destroy(node->right, del);
         del(node->data);
         free(node);
+        node = NULL;
     }
 }
 
@@ -364,7 +369,7 @@ void preOrder(TreeNode* node, PrintFunc print)
     }
     else
     {
-        //printf("node: \n");
+        printf("node: \n");
         print(node);
         //printf("left: \n");
         //print(node->left);
@@ -387,4 +392,9 @@ void postOrder(TreeNode* node, PrintFunc print)
         preOrder(node->right, print);
         print(node);
     }
+}
+
+void remover(TreeNode* node, DeleteFunc del)
+{
+
 }

@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1512240872 source:c:\users\eric\desktop\cis2520\efaguy_a4\main.c
+1512242377 source:c:\users\eric\desktop\cis2520\efaguy_a4\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<C:\Users\Eric\Desktop\CIS2520\efaguy_a4\BinarySearchTreeAPI.h>
 
-1512241090 source:c:\users\eric\desktop\cis2520\efaguy_a4\binarysearchtreeapi.c
+1512243949 source:c:\users\eric\desktop\cis2520\efaguy_a4\binarysearchtreeapi.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>

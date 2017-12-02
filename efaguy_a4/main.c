@@ -25,7 +25,7 @@ int compareInt(const void* a, const void* b)
 
 void deleteInt(void* data)
 {
-    free(data);
+    return;
 }
 
 void printInt(void* data)
@@ -45,7 +45,7 @@ int main()
     addToTree(test, (void*)two);
     addToTree(test, (void*)three);
 
-    printf("Printing preOrder:\n\n");
+   /* printf("Printing preOrder:\n\n");
     printPreOrder(test, printInt);
 
     printf("Printing postOrder:\n\n");
@@ -53,6 +53,11 @@ int main()
 
     printf("Printing inOrder:\n\n");
     printInOrder(test, printInt);
+*/
+    removeFromTree(test, (void*)two);
+
+    printf("Printing preOrder:\n\n");
+    printPreOrder(test, printInt);
     destroyBinTree(test);
     return 0;
 }

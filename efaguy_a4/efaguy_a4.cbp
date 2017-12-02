@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="BinarySearchTreeAPI.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="BinarySearchTreeAPI.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
