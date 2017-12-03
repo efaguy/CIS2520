@@ -29,6 +29,10 @@ double getLearnRate(Rule* rule);
 
 int getUses(Rule* rule);
 
+void setRating(Rule* rule, double rating);
+
+void updateRating(Rule* rule, char way);
+
 int compareRule(const void* a, const void* b);
 
 void deleteRule(void* data);

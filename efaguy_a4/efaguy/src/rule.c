@@ -46,6 +46,26 @@ int getUses(Rule* rule)
 	return rule->uses;
 }
 
+void setRating(Rule* rule, double rating)
+{
+	rule->userRate = rating;
+}
+
+void updateRating(Rule* rule, char way)
+{
+	rule->uses++;
+	double update = rule->sysRate * (rule->learnRate/rule->uses);
+	printf("%lf\n", update);
+	if(way == 'y')
+	{
+		rule->sysRate = rule->sysRate + update;
+	}
+	else
+	{
+		rule->sysRate = rule->sysRate - update;
+	}
+}
+
 int compareRule(const void* a, const void* b)
 {
 	Rule* rule1 = (Rule*)a;
@@ -79,5 +99,5 @@ void deleteRule(void* data)
 void printRule(void* data)
 {
 	Rule* r = (Rule*)data;
-	printf("%s\tRating:%f\tSystem:%f\tOccurrences:%d\n",r->keyword,r->userRate,r->sysRate,r->uses);
+	printf("%s\tRating:%.2f\tSystem:%.2f\tOccurrences:%d\n",r->keyword,r->userRate,r->sysRate,r->uses);
 }

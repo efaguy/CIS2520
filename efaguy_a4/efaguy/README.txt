@@ -1,0 +1,5 @@
+Name: Eric Faguy 0968958
+Description:  This program uses a BST to implement a text-based personal assistant. The program uses rules to find keywords in the user's input and respones to it based on the rule with the highest importance, based on the user and system rating. A rule consists of a keyword, a response, an user rating, a system rating, and the number of time it has been used. It allows the user to add new conversation rule, remove a rule, display a;; the current rules, modify the rating of a rule, and initiate a discussion. After a diccussion the program will ask if the response was useful and update the system rating of the rule based on that. When printing thr rules is the program uses printPreOrder.
+Limitations: The keywords will be 50 characters or less. The responses and questions will be 500 characters of less. Cannot remove a node that has two childern. When two rules are found will the same rating the first one to appear in the sentence will be choosen.
+Running make program will compile into a executable called program in the bin directory.
+Running make test will compile the test main into a executable called test in the bin directroy.

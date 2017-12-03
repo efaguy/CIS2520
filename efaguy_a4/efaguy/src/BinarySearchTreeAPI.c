@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "../includes/BinarySearchTreeAPI.h"
-#include "../includes/rule.h"
+
 /**************************************
 Interface for a Binary Tree ADT
 Author:  Judi McCuaig
@@ -23,6 +23,7 @@ TreeNode* createTreeNode(TreeDataPtr data)
     newNode->data = data;
     newNode->left = NULL;
     newNode->right = NULL;
+    newNode->parent = NULL;
     return newNode;
 }
 
@@ -65,8 +66,6 @@ void addToTree(Tree * theTree, TreeDataPtr data)
     TreeNode* prev = NULL;
     if(theTree->root == NULL)
     {
-        printf("ROOT: ");
-        printRule(newNode->data);
         newNode->parent = NULL;
         theTree->root = newNode;
         return;
@@ -76,10 +75,6 @@ void addToTree(Tree * theTree, TreeDataPtr data)
        // printf("tue");
         if(curNode == NULL)
         {
-            printf("placed: ");
-            printRule(newNode->data);
-            printf("Parent: ");
-            printRule(prev->data);
             if(theTree->compareFunc(prev->data,data) == 1)
             {
                 prev->right = newNode;
@@ -94,15 +89,11 @@ void addToTree(Tree * theTree, TreeDataPtr data)
         }
         else if(theTree->compareFunc(curNode->data,data) == 1)
         {
-            //printf("right: ");
-            //printRule(data);
             prev = curNode;
             curNode = curNode->right;
         }
         else
         {
-            //printf("left: ");
-            //printRule(data);
             prev = curNode;
             curNode = curNode->left;
         }
@@ -118,13 +109,11 @@ void addToTree(Tree * theTree, TreeDataPtr data)
 void removeFromTree(Tree * theTree, TreeDataPtr data)
 {
     TreeNode* curNode = theTree->root;
-    printf("Looking for : \n");
-    printRule(data);
     while(true)
     {
         if(curNode == NULL)
         {
-			printf("????\n");
+			printf("That keyword does not belong to a rule.\n");
             return;
         }
         else if(theTree->compareFunc(curNode->data,data) == 0)
@@ -140,7 +129,6 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
             curNode = curNode->left;
         }
     }
-    printRule(curNode->data);
     if(isLeaf(curNode))
     {
 		if(curNode->parent->left != NULL)
@@ -158,6 +146,7 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
 			}
 		}
 		free(curNode);
+		printf("Successfully delete rule\n");
         return;
     }
     else if(!hasTwoChildren(curNode))
@@ -187,54 +176,12 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
 		}
 		theTree->deleteFunc(curNode->data);
 		free(curNode);
+		printf("Successfully delete rule\n");
 		return;
     }
     else if(hasTwoChildren(curNode))
     {
-        printf("two\n");
-        TreeNode* node = curNode;
-        TreeNode* small = curNode->left;
-        while(true)
-        {
-            if(node == NULL)
-            {
-                break;
-            }
-            if(theTree->compareFunc(node->data, small->data) == -1)
-            {
-                small = node;
-            }
-            node = node->right;
-        }
-        printRule(small->data);
-        if(curNode->parent == NULL)
-        {
-			small->left = theTree->root->left;
-			small->right = theTree->root->right;
-			theTree->root = small;
-		}
-        else if(curNode->parent->left != NULL)
-		{
-			printf("left del\n");
-			printRule(curNode->data);
-			printRule(curNode->parent->right->data);
-			if(strcmp(curNode->data, curNode->parent->right->data) == 0)
-			{
-				printf("left del\n");
-				curNode->parent->right = small;
-			}
-		}
-		else if(curNode->parent->right != NULL)
-		{
-			printf("right del\n");
-			if(strcmp(curNode->data, curNode->parent->right->data) == 0)
-			{
-				printf("right del\n");
-				curNode->parent->right = small;
-			}
-		}
-		theTree->deleteFunc(curNode->data);
-		free(curNode);
+        printf("Deleting a node with two childern does not work\n");
         return;
     }
 }
@@ -436,13 +383,9 @@ void postOrder(TreeNode* node, PrintFunc print)
     }
     else
     {
-        preOrder(node->left, print);
-        preOrder(node->right, print);
-        print(node);
+        postOrder(node->left, print);
+        postOrder(node->right, print);
+        print(node->data);
     }
 }
 
-void remover(TreeNode* node, DeleteFunc del)
-{
-
-}
