@@ -48,7 +48,7 @@ int main(int args, char** argc)
 				{
 					removeNewLine(keyword);
 					int len = strlen(keyword);
-					if(keyword[len-1] == '.' || keyword[len-1] == '!' || keyword[len-1] == '!')
+					if(keyword[len-1] == '.' || keyword[len-1] == '?' || keyword[len-1] == '!')
 					{
 						keyword[len-1] = '\0';
 					}
@@ -87,7 +87,7 @@ int main(int args, char** argc)
 				fgets(keyword, 50, stdin);
 				removeNewLine(keyword);
 				int len = strlen(keyword);
-				if(keyword[len-1] == '.' || keyword[len-1] == '!' || keyword[len-1] == '!')
+				if(keyword[len-1] == '.' || keyword[len-1] == '?' || keyword[len-1] == '!')
 				{
 					keyword[len-1] = '\0';
 				}
@@ -150,7 +150,7 @@ int main(int args, char** argc)
 				fgets(temp, 500, stdin);
 				removeNewLine(temp);
 				len = strlen(temp);
-				if(temp[len-1] == '.' || temp[len-1] == '!' || temp[len-1] == '!')
+				if(temp[len-1] == '.' || temp[len-1] == '?' || temp[len-1] == '!')
 				{
 					temp[len-1] = '\0';
 				}
