@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "../includes/BinarySearchTreeAPI.h"
 #include "../includes/rule.h"
 /**************************************
@@ -49,6 +50,7 @@ Tree * createBinTree(CompareFunc compare, DeleteFunc del, PrintFunc print)
 void destroyBinTree(Tree * toDestroy)
 {
     destroy(toDestroy->root, toDestroy->deleteFunc);
+    free(toDestroy);
 }
 
 /**
@@ -76,8 +78,8 @@ void addToTree(Tree * theTree, TreeDataPtr data)
         {
             printf("placed: ");
             printRule(newNode->data);
-            //printf("Parent: ");
-            //printRule(prev->data);
+            printf("Parent: ");
+            printRule(prev->data);
             if(theTree->compareFunc(prev->data,data) == 1)
             {
                 prev->right = newNode;
@@ -116,10 +118,13 @@ void addToTree(Tree * theTree, TreeDataPtr data)
 void removeFromTree(Tree * theTree, TreeDataPtr data)
 {
     TreeNode* curNode = theTree->root;
+    printf("Looking for : \n");
+    printRule(data);
     while(true)
     {
         if(curNode == NULL)
         {
+			printf("????\n");
             return;
         }
         else if(theTree->compareFunc(curNode->data,data) == 0)
@@ -135,15 +140,24 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
             curNode = curNode->left;
         }
     }
+    printRule(curNode->data);
     if(isLeaf(curNode))
     {
-        //printf("Deleting %d\nleaf\n", curNode->data);
-        theTree->deleteFunc(curNode->data);
-        //curNode->left = NULL;
-        //curNode->right = NULL;
-        free(curNode);
-        curNode = NULL;
-        //printf("Deleted %d\nleaf\n", curNode->data);
+		if(curNode->parent->left != NULL)
+		{
+			if(strcmp(curNode->data, curNode->parent->left->data) == 0)
+			{
+				curNode->parent->left = NULL;
+			}
+		}
+		else if(curNode->parent->right != NULL)
+		{
+			if(strcmp(curNode->data, curNode->parent->right->data) == 0)
+			{
+				curNode->parent->right = NULL;
+			}
+		}
+		free(curNode);
         return;
     }
     else if(!hasTwoChildren(curNode))
@@ -157,13 +171,27 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
         {
             temp = curNode->right;
         }
-        theTree->deleteFunc(curNode->data);
-        curNode = temp;
-        return;
+		if(curNode->parent->left != NULL)
+		{
+			if(strcmp(curNode->data, curNode->parent->left->data) == 0)
+			{
+				curNode->parent->left = temp;
+			}
+		}
+		if(curNode->parent->right != NULL)
+		{
+			if(strcmp(curNode->data, curNode->parent->right->data) == 0)
+			{
+				curNode->parent->right = temp;
+			}
+		}
+		theTree->deleteFunc(curNode->data);
+		free(curNode);
+		return;
     }
     else if(hasTwoChildren(curNode))
     {
-        //printf("two\n");
+        printf("two\n");
         TreeNode* node = curNode;
         TreeNode* small = curNode->left;
         while(true)
@@ -178,7 +206,35 @@ void removeFromTree(Tree * theTree, TreeDataPtr data)
             }
             node = node->right;
         }
-        curNode->data = small->data;
+        printRule(small->data);
+        if(curNode->parent == NULL)
+        {
+			small->left = theTree->root->left;
+			small->right = theTree->root->right;
+			theTree->root = small;
+		}
+        else if(curNode->parent->left != NULL)
+		{
+			printf("left del\n");
+			printRule(curNode->data);
+			printRule(curNode->parent->right->data);
+			if(strcmp(curNode->data, curNode->parent->right->data) == 0)
+			{
+				printf("left del\n");
+				curNode->parent->right = small;
+			}
+		}
+		else if(curNode->parent->right != NULL)
+		{
+			printf("right del\n");
+			if(strcmp(curNode->data, curNode->parent->right->data) == 0)
+			{
+				printf("right del\n");
+				curNode->parent->right = small;
+			}
+		}
+		theTree->deleteFunc(curNode->data);
+		free(curNode);
         return;
     }
 }
@@ -368,7 +424,7 @@ void preOrder(TreeNode* node, PrintFunc print)
     {
         print(node->data);
         preOrder(node->left, print);
-        preOrder(node->right, print);
+		preOrder(node->right, print);
     }
 }
 

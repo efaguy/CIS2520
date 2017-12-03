@@ -51,23 +51,28 @@ int compareRule(const void* a, const void* b)
 	Rule* rule1 = (Rule*)a;
 	Rule* rule2 = (Rule*)b;
 	
-	if(strcmp(rule1->keyword, rule2->keyword) == 1)
+	if(strcmp(rule1->keyword, rule2->keyword) > 0)
 	{
 		return 1;
 	}
-	else
+	else if(strcmp(rule1->keyword, rule2->keyword) < 0)
 	{
 		return -1;
 	}
+	else
+	{
+		return 0;
+	}
+	
 }
 
 void deleteRule(void* data)
 {
 	Rule* r = (Rule*)data;
-	//char* word = r->keyword;
-	//char* resp = r->response;
-	//free(word);
-	//free(resp);
+	char* word = r->keyword;
+	char* resp = r->response;
+	free(word);
+	free(resp);
 	free(r);
 }
 
